@@ -6,6 +6,8 @@ import com.lambdaschool.dogsinitial.DogsinitialApplication;
 import com.lambdaschool.dogsinitial.model.MessageDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +24,16 @@ public class DogController
 {
     private static final Logger logger = LoggerFactory.getLogger(DogController.class);
 
+    @Autowired
+    RabbitTemplate rt;
+
     // localhost:8080/dogs/dogs
     @GetMapping(value = "/dogs")
     public ResponseEntity<?> getAllDogs()
     {
         logger.trace("/dogs/dogs accessed");
         MessageDetail message = new MessageDetail("/dogs/dogs accessed", 7, false);
+        rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_HIGH, message);
         return new ResponseEntity<>(DogsinitialApplication.ourDogList.dogList, HttpStatus.OK);
     }
 

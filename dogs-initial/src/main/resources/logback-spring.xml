@@ -60,18 +60,26 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.apache.catalina" level="OFF">
+    <logger name="org.apache.catalina" level="INFO">
         <appender-ref ref="TOMCAT" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.apache.coyote" level="OFF">
+    <logger name="org.apache.coyote" level="INFO">
         <appender-ref ref="TOMCAT" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.apache.tomcat" level="OFF">
+    <logger name="org.apache.tomcat" level="INFO">
         <appender-ref ref="TOMCAT" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.springframework.boot" level="INFO">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="com.lambdaschool.dogsinitial" level="TRACE">
         <appender-ref ref="STDOUT" />
     </logger>
 </configuration>
