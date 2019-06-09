@@ -1,10 +1,13 @@
 package com.lambdaschool.dogsinitial;
 
+import com.lambdaschool.dogsinitial.model.Dog;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DogList
 {
-    public ArrayList<Dog> dogList = new ArrayList<Dog>();
+    public ArrayList<Dog> dogList = new ArrayList<>();
 
     public DogList()
     {
