@@ -1,4 +1,4 @@
-package com.lambdaschool.dogsinitial.model;
+package com.lambdaschool.dogs.model;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class MessageDetail implements Serializable
 	private String date;
 	private String parameters;
 
-	public MessageDetail(String text)
+	public MessageDetail()
 	{
 
 	}

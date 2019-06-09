@@ -4,7 +4,6 @@ import com.lambdaschool.dogsinitial.exception.ResourceNotFoundException;
 import com.lambdaschool.dogsinitial.model.Dog;
 import com.lambdaschool.dogsinitial.DogsinitialApplication;
 import com.lambdaschool.dogsinitial.model.MessageDetail;
-import org.apache.logging.log4j.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -33,8 +32,8 @@ public class DogController
     @GetMapping(value = "/dogs")
     public ResponseEntity<?> getAllDogs()
     {
-        logger.trace("/dogs/dogs accessed at " + new Date() + " in HIGH QUEUE");
-        MessageDetail message = new MessageDetail("/dogs/dogs accessed", 7, false);
+        logger.info("/dogs/dogs accessed at " + new Date() + " in HIGH QUEUE");
+        MessageDetail message = new MessageDetail("/dogs/dogs accessed", 7, false, new Date() + "", "None");
         rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_HIGH, message);
         return new ResponseEntity<>(DogsinitialApplication.ourDogList.dogList, HttpStatus.OK);
     }
@@ -44,7 +43,7 @@ public class DogController
     public ResponseEntity<?> getDogDetail(@PathVariable long id)
     {
         logger.trace("/dogs/{id} accessed with id: " + id + " at " + new Date() + " in LOW QUEUE");
-        MessageDetail message = new MessageDetail("/dogs/{id} accessed", 7, false);
+        MessageDetail message = new MessageDetail("/dogs/{id} accessed", 7, false, new Date() + "", id + "");
         rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_LOW, message);
         Dog rtnDog = DogsinitialApplication.ourDogList.findDog(d -> (d.getId() == id));
         if (rtnDog == null)

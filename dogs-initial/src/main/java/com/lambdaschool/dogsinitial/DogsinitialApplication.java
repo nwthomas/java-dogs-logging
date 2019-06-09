@@ -17,6 +17,7 @@ public class DogsinitialApplication
     public static final String EXCHANGE_NAME = "LambdaServer";
     public static final String QUEUE_NAME_LOW = "LowPriorityQueue";
     public static final String QUEUE_NAME_HIGH = "HighPriorityQueue";
+    public static final String QUEUE_ERROR = "QUEUE_ERROR";
 
     public static DogList ourDogList;
     public static void main(String[] args)
@@ -56,6 +57,18 @@ public class DogsinitialApplication
     public Binding declareBindingLow()
     {
         return BindingBuilder.bind(appQueueHigh()).to(appExchange()).with(QUEUE_NAME_LOW);
+    }
+
+    @Bean
+    public Queue appQueueError()
+    {
+        return new Queue(QUEUE_ERROR);
+    }
+
+    @Bean
+    public Binding declareBindingError()
+    {
+        return BindingBuilder.bind(appQueueError()).to(appExchange()).with(QUEUE_ERROR);
     }
 
     @Bean
