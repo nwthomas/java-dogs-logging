@@ -3,6 +3,9 @@ package com.lambdaschool.dogsinitial.controller;
 import com.lambdaschool.dogsinitial.exception.ResourceNotFoundException;
 import com.lambdaschool.dogsinitial.model.Dog;
 import com.lambdaschool.dogsinitial.DogsinitialApplication;
+import com.lambdaschool.dogsinitial.model.MessageDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +20,14 @@ import java.util.ArrayList;
 @RequestMapping("/dogs")
 public class DogController
 {
+    private static final Logger logger = LoggerFactory.getLogger(DogController.class);
+
     // localhost:8080/dogs/dogs
     @GetMapping(value = "/dogs")
     public ResponseEntity<?> getAllDogs()
     {
+        logger.trace("/dogs/dogs accessed");
+        MessageDetail message = new MessageDetail("/dogs/dogs accessed", 7, false);
         return new ResponseEntity<>(DogsinitialApplication.ourDogList.dogList, HttpStatus.OK);
     }
 

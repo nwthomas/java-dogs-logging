@@ -8,7 +8,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>/tmp/var/logs/lambdajx</File>
+        <File>/tmp/var/logs/lambdajx.log</File>
         <append>true</append>
         <encoder>
             <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.SSS}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
@@ -17,7 +17,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
             <!-- rollover daily -->
-            <fileNamePattern>/tmp/var/mylog.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
+            <fileNamePattern>/tmp/var/logs/lambdajx.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
 
             <!-- keep 30 days' worth of history -->
@@ -27,7 +27,7 @@
     </appender>
 
     <appender name="TOMCAT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>/tmp/var/logs/lambdajx</File>
+        <File>/tmp/var/logs/lambdajx.log</File>
         <append>true</append>
         <encoder>
             <pattern>[%d{yyyy-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
@@ -36,7 +36,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
             <!-- rollover daily -->
-            <fileNamePattern>/var/tmp/myTomcatLog.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
+            <fileNamePattern>/var/tmp/logs/myTomcatLog.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
 
             <!-- keep 30 days' worth of history -->
@@ -45,27 +45,27 @@
         </rollingPolicy>
     </appender>
 
-    <root level="OFF">
+    <root level="TRACE">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.apache.catalina" level="OFF">
+    <logger name="org.apache.catalina" level="FILE">
         <appender-ref ref="TOMCAT" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.apache.coyote" level="OFF">
+    <logger name="org.apache.coyote" level="FILE">
         <appender-ref ref="TOMCAT" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.apache.tomcat" level="OFF">
+    <logger name="org.apache.tomcat" level="FILE">
         <appender-ref ref="TOMCAT" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.springframework.boot" level="OFF">
+    <logger name="org.springframework.boot" level="FILE">
         <appender-ref ref="STDOUT" />
     </logger>
 
