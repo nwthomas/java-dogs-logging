@@ -41,17 +41,19 @@ public class DogController
     // localhost:8080/dogs/{id}
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getDogDetail(@PathVariable long id)
-    {
-        logger.trace("/dogs/{id} accessed with id: " + id + " at " + new Date() + " in LOW QUEUE");
+	{
         MessageDetail message = new MessageDetail("/dogs/{id} accessed", 7, false, new Date() + "", id + "");
-        rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_LOW, message);
         Dog rtnDog = DogsinitialApplication.ourDogList.findDog(d -> (d.getId() == id));
         if (rtnDog == null)
         {
+			logger.trace("/dogs/{id} accessed with id: " + id + " at " + new Date() + " in LOW QUEUE");
+			rt.convertAndSend(DogsinitialApplication.QUEUE_ERROR, message);
             throw new ResourceNotFoundException("The dog with id " + id + " could not be found.");
         }
         else
         {
+			logger.trace("/dogs/{id} accessed with id: " + id + " at " + new Date() + " in ERROR QUEUE");
+			rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_LOW, message);
             return new ResponseEntity<>(rtnDog, HttpStatus.OK);
         }
     }
