@@ -64,12 +64,16 @@ public class DogController
     {
         ArrayList<Dog> rtnDogs = DogsinitialApplication.ourDogList.
                 findDogs(d -> d.getBreed().toUpperCase().equals(breed.toUpperCase()));
+		MessageDetail message = new MessageDetail("/dogs/{breed} accessed", 7, false, new Date() + "", breed);
         if (rtnDogs.size() == 0)
         {
+			rt.convertAndSend(DogsinitialApplication.QUEUE_ERROR, message);
             throw new ResourceNotFoundException("No dogs of breed " + breed + " were found.");
         }
         else
         {
+			rt.convertAndSend(DogsinitialApplication.QUEUE_NAME_LOW, message);
+			logger.trace("/dogs/{breed} accessed with breed: " + breed + " at " + new Date() + " in LOW QUEUE");
             return new ResponseEntity<>(rtnDogs, HttpStatus.OK);
         }
     }
@@ -82,7 +86,7 @@ public class DogController
         DogsinitialApplication.ourDogList.dogList.sort((d1, d2) -> d1.getBreed().compareToIgnoreCase(d2.getBreed()));
         mav.setViewName("dogs");
         mav.addObject("dogList", DogsinitialApplication.ourDogList.dogList);
-
+		logger.trace("/breedtable accessed at " + new Date() + " in LOW QUEUE");
         return mav;
     }
 
@@ -102,7 +106,7 @@ public class DogController
         }
         mav.setViewName("dogs");
         mav.addObject("dogList", apartmentDogs);
-
+		logger.trace("/apartmentbreedstable accessed at " + new Date() + " in LOW QUEUE");
         return mav;
     }
 }

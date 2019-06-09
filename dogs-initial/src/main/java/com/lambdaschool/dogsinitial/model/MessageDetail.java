@@ -10,7 +10,7 @@ public class MessageDetail implements Serializable
 	private String date;
 	private String parameters;
 
-	public MessageDetail(String text)
+	public MessageDetail()
 	{
 
 	}
